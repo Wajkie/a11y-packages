@@ -9,8 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@wajkie/a11y-core": "file:../a11y-core",
-    "@wajkie/react-a11y": "file:../react-a11y",
+    "@wajkie/a11y-core": "0.1.0",
+    "@wajkie/react-a11y": "0.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

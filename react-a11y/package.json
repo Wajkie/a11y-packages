@@ -78,7 +78,7 @@
     "react-dom": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
-    "@wajkie/a11y-core": "file:../a11y-core"
+    "@wajkie/a11y-core": "0.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
