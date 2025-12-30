@@ -1,0 +1,7 @@
+{
+  "atLeast": 100,
+  "strict": true,
+  "ignoreFiles": [
+    "**/__tests__/**"
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "name": "@wajkie/react-a11y",
+  "version": "0.1.0",
+  "description": "React hooks and components for accessibility (WCAG 2.1 AA)",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --external react --external react-dom --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
+    "type-coverage": "type-coverage",
+    "type-coverage:detail": "type-coverage --detail",
+    "prepublishOnly": "npm run typecheck && npm run lint && npm run test && npm run build"
+  },
+  "keywords": [
+    "react",
+    "react-hooks",
+    "accessibility",
+    "a11y",
+    "wcag",
+    "wcag-2.1",
+    "wcag-aa",
+    "hooks",
+    "components",
+    "aria",
+    "focus-management",
+    "focus-trap",
+    "keyboard-navigation",
+    "screen-reader",
+    "i18n",
+    "inclusive",
+    "universal-design",
+    "assistive-technology",
+    "typescript",
+    "react18",
+    "react19",
+    "nextjs",
+    "remix",
+    "vite"
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/wajkie"
+  },
+  "author": "Wajkie",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wajkie/react-a11y"
+  },
+  "bugs": {
+    "url": "https://github.com/wajkie/react-a11y/issues"
+  },
+  "homepage": "https://github.com/wajkie/react-a11y#readme",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@wajkie/a11y-core": "file:../a11y-core"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@testing-library/react": "^14.1.0",
+    "@testing-library/user-event": "^14.5.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@vitest/utils": "^3.2.4",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "happy-dom": "^20.0.11",
+    "prettier": "^3.4.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tsup": "^8.3.5",
+    "type-coverage": "^2.29.7",
+    "typescript": "^5.7.2",
+    "typescript-coverage-report": "^1.1.1",
+    "vitest": "^2.1.8"
+  },
+  "typeCoverage": {
+    "atLeast": 100,
+    "strict": true,
+    "ignoreFiles": [
+      "src/__tests__/**/*.ts",
+      "src/__tests__/**/*.tsx"
+    ]
+  }
+}

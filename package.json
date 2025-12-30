@@ -1,0 +1,36 @@
+{
+  "name": "a11y-packages",
+  "private": true,
+  "workspaces": [
+    "a11y-core",
+    "react-a11y",
+    "example"
+  ],
+  "scripts": {
+    "build": "npm run build -w a11y-core && npm run build -w react-a11y",
+    "test": "npm run test -w a11y-core && npm run test -w react-a11y",
+    "test:coverage": "npm run test:coverage -w a11y-core && npm run test:coverage -w react-a11y",
+    "lint": "npm run lint -w a11y-core && npm run lint -w react-a11y",
+    "lint:fix": "npm run lint:fix -w a11y-core && npm run lint:fix -w react-a11y",
+    "format": "npm run format -w a11y-core && npm run format -w react-a11y",
+    "format:check": "npm run format:check -w a11y-core && npm run format:check -w react-a11y",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && changeset publish",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.11",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  }
+}
