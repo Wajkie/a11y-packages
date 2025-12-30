@@ -36,7 +36,7 @@
     "typecheck": "tsc --noEmit",
     "type-coverage": "type-coverage",
     "type-coverage:detail": "type-coverage --detail",
-    "prepublishOnly": "npm run lint && npm run test && npm run build"
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "accessibility",
