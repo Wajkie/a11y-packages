@@ -72,6 +72,9 @@ function App() {
 
 ## ✨ Demo
 
+**🎮 [Live Demo](https://wajkiea11ydemo.netlify.app/)** - See all features in action!
+
+**Run locally:**
 ```bash
 # Clone the repository
 git clone https://github.com/wajkie/a11y-packages.git
@@ -88,7 +91,7 @@ cd example
 npm run dev
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to see all features in action!
+Visit [http://localhost:5173](http://localhost:5173) to see the demo locally.
 
 ## ♿ WCAG 2.1 AA Compliance
 
