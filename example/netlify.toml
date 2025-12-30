@@ -1,0 +1,15 @@
+[build]
+  # Build command that first builds the dependencies, then the example
+  command = "cd .. && npm run build && cd example && npm run build"
+  # Output directory for Vite
+  publish = "dist"
+  # Use Node.js 20
+  
+[build.environment]
+  NODE_VERSION = "20"
+
+# Redirect all requests to index.html for client-side routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
