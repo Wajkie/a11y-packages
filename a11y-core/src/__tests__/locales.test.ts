@@ -16,7 +16,7 @@ describe('Locale System', () => {
     it('should load correct messages for English', async () => {
       await setLocale('en');
       const messages = getMessages();
-      
+
       expect(messages.close).toBe('Close');
       expect(messages.open).toBe('Open');
       expect(messages.skipToContent).toBe('Skip to main content');
@@ -25,7 +25,7 @@ describe('Locale System', () => {
     it('should load correct messages for Swedish', async () => {
       await setLocale('sv');
       const messages = getMessages();
-      
+
       expect(messages.close).toBe('Stäng');
       expect(messages.open).toBe('Öppna');
       expect(messages.skipToContent).toBe('Hoppa till huvudinnehåll');
@@ -39,7 +39,7 @@ describe('Locale System', () => {
 
     it('should return all required navigation messages', () => {
       const messages = getMessages();
-      
+
       expect(messages.skipToContent).toBeDefined();
       expect(messages.mainNavigation).toBeDefined();
       expect(messages.userMenu).toBeDefined();
@@ -51,7 +51,7 @@ describe('Locale System', () => {
 
     it('should return all required action messages', () => {
       const messages = getMessages();
-      
+
       expect(messages.close).toBeDefined();
       expect(messages.open).toBeDefined();
       expect(messages.save).toBeDefined();
@@ -66,7 +66,7 @@ describe('Locale System', () => {
 
     it('should return all required pagination messages', () => {
       const messages = getMessages();
-      
+
       expect(messages.nextPage).toBeDefined();
       expect(messages.previousPage).toBeDefined();
       expect(messages.currentPage).toBeDefined();
@@ -75,7 +75,7 @@ describe('Locale System', () => {
 
     it('should return all required user messages', () => {
       const messages = getMessages();
-      
+
       expect(messages.login).toBeDefined();
       expect(messages.logout).toBeDefined();
       expect(messages.register).toBeDefined();
@@ -84,7 +84,7 @@ describe('Locale System', () => {
 
     it('should return all required status messages', () => {
       const messages = getMessages();
-      
+
       expect(messages.required).toBeDefined();
       expect(messages.optional).toBeDefined();
       expect(messages.error).toBeDefined();
@@ -99,7 +99,7 @@ describe('Locale System', () => {
         open: 'Open',
       };
       const keys = ['close', 'open'] as const;
-      
+
       expect(validateLocale(locale, keys)).toBe(true);
     });
 
@@ -108,7 +108,7 @@ describe('Locale System', () => {
         close: 'Close',
       };
       const keys = ['close', 'open'] as const;
-      
+
       expect(validateLocale(locale, keys)).toBe(false);
     });
 
@@ -119,7 +119,7 @@ describe('Locale System', () => {
         open: 123 as any,
       };
       const keys = ['close', 'open'] as const;
-      
+
       expect(validateLocale(locale, keys)).toBe(false);
     });
   });
@@ -128,20 +128,20 @@ describe('Locale System', () => {
     it('should have same keys in English and Swedish', async () => {
       await setLocale('en');
       const enMessages = getMessages();
-      
+
       await setLocale('sv');
       const svMessages = getMessages();
-      
+
       const enKeys = Object.keys(enMessages).sort();
       const svKeys = Object.keys(svMessages).sort();
-      
+
       expect(enKeys).toEqual(svKeys);
     });
 
     it('should not have empty string values in English', async () => {
       await setLocale('en');
       const messages = getMessages();
-      
+
       Object.entries(messages).forEach(([_key, value]) => {
         expect(value).not.toBe('');
         expect(value.trim()).toBe(value); // No leading/trailing spaces
@@ -151,7 +151,7 @@ describe('Locale System', () => {
     it('should not have empty string values in Swedish', async () => {
       await setLocale('sv');
       const messages = getMessages();
-      
+
       Object.entries(messages).forEach(([_key, value]) => {
         expect(value).not.toBe('');
         expect(value.trim()).toBe(value);

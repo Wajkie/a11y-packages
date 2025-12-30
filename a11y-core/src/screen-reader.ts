@@ -6,7 +6,7 @@
 /**
  * Screen reader only styles documentation
  * Apply these CSS properties to hide content visually while keeping it accessible to screen readers
- * 
+ *
  * @example CSS
  * ```css
  * .sr-only {
@@ -21,7 +21,7 @@
  *   border-width: 0;
  * }
  * ```
- * 
+ *
  * @example Tailwind CSS
  * ```tsx
  * <span className="sr-only">Hidden text for screen readers</span>
@@ -36,41 +36,46 @@ export const srOnlyStyles = {
   overflow: 'hidden',
   clip: 'rect(0, 0, 0, 0)',
   whiteSpace: 'nowrap',
-  borderWidth: '0'
+  borderWidth: '0',
 } as const;
 
 /**
  * Announce message to screen readers
  * Uses ARIA live regions to communicate updates to assistive technology
- * 
+ *
  * @param message - The message to announce
  * @param priority - 'polite' (default) waits for pause, 'assertive' interrupts immediately
- * 
+ *
  * @example
  * ```ts
  * // Polite announcement (doesn't interrupt)
  * announceToScreenReader('Form saved successfully');
- * 
+ *
  * // Assertive announcement (interrupts current speech)
  * announceToScreenReader('Error: Please correct the form', 'assertive');
  * ```
  */
-export const announceToScreenReader = (message: string, priority: "polite" | "assertive" = "polite") => {
+export const announceToScreenReader = (
+  message: string,
+  priority: 'polite' | 'assertive' = 'polite'
+) => {
   if (typeof document === 'undefined') {
-    console.warn('[a11y-core] announceToScreenReader: Running in non-browser environment. Announcement will be skipped.');
+    console.warn(
+      '[a11y-core] announceToScreenReader: Running in non-browser environment. Announcement will be skipped.'
+    );
     return;
   }
-  
+
   if (!message) {
     console.warn('[a11y-core] announceToScreenReader: Empty message provided.');
     return;
   }
-  
-  const announcement = document.createElement("div");
-  announcement.setAttribute("role", "status");
-  announcement.setAttribute("aria-live", priority);
-  announcement.setAttribute("aria-atomic", "true");
-  
+
+  const announcement = document.createElement('div');
+  announcement.setAttribute('role', 'status');
+  announcement.setAttribute('aria-live', priority);
+  announcement.setAttribute('aria-atomic', 'true');
+
   // Apply screen reader only styles
   Object.assign(announcement.style, {
     position: 'absolute',
@@ -81,9 +86,9 @@ export const announceToScreenReader = (message: string, priority: "polite" | "as
     overflow: 'hidden',
     clip: 'rect(0, 0, 0, 0)',
     whiteSpace: 'nowrap',
-    border: '0'
+    border: '0',
   });
-  
+
   announcement.textContent = message;
 
   document.body.appendChild(announcement);
@@ -91,4 +96,4 @@ export const announceToScreenReader = (message: string, priority: "polite" | "as
   setTimeout(() => {
     document.body.removeChild(announcement);
   }, 1000);
-}
+};

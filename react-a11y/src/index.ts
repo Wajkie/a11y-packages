@@ -12,7 +12,7 @@ export {
   useKeyboardNavigation,
   useAnnouncer,
   useA11yLocale,
-  type UseA11yLocaleReturn
+  type UseA11yLocaleReturn,
 } from './hooks/useAccessibility';
 
 // Export components
@@ -20,14 +20,6 @@ export { SkipNavigation } from './components/SkipNavigation';
 export type { SkipNavigationProps } from './components/SkipNavigation';
 
 // Re-export types from core
-export type {
-  AriaRole,
-  AriaLive,
-  AriaLabelProps,
-  AriaDescriptionProps
-} from '@wajkie/a11y-core';
+export type { AriaRole, AriaLive, AriaLabelProps, AriaDescriptionProps } from '@wajkie/a11y-core';
 
-export type {
-  Locale,
-  A11yMessages
-} from '@wajkie/a11y-core/locales';
+export type { Locale, A11yMessages } from '@wajkie/a11y-core/locales';

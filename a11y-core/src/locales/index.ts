@@ -6,7 +6,7 @@
 /**
  * Interface for extending supported locales
  * Users can augment this interface to add their custom locales to TypeScript autocomplete
- * 
+ *
  * @example
  * ```ts
  * // In your app's type definition file (e.g., types/a11y.d.ts)
@@ -89,8 +89,11 @@ export interface A11yMessages {
 /**
  * Validate that a locale object has all required keys
  */
-export const validateLocale = (locale: Record<string, string>, keys: readonly string[]): boolean => {
-  return keys.every(key => key in locale && typeof locale[key] === 'string');
+export const validateLocale = (
+  locale: Record<string, string>,
+  keys: readonly string[]
+): boolean => {
+  return keys.every((key) => key in locale && typeof locale[key] === 'string');
 };
 
 // Import locales statically
@@ -108,10 +111,10 @@ let messages: A11yMessages = enMessages;
 /**
  * Register a custom locale
  * Allows adding new languages at runtime
- * 
+ *
  * @param locale - The locale code (e.g., 'de', 'fr')
  * @param messages - The translated messages object
- * 
+ *
  * @example
  * ```ts
  * import deMessages from './locales/de';
@@ -124,22 +127,51 @@ export const registerLocale = (locale: string, localeMessages: A11yMessages): vo
     console.error('[a11y-core] registerLocale: locale code is required');
     return;
   }
-  
+
   if (!localeMessages || typeof localeMessages !== 'object') {
-    console.error('[a11y-core] registerLocale: localeMessages must be an object with all A11yMessages keys');
+    console.error(
+      '[a11y-core] registerLocale: localeMessages must be an object with all A11yMessages keys'
+    );
     return;
   }
-  
+
   // Validate that all required keys are present
   const requiredKeys: (keyof A11yMessages)[] = [
-    'skipToContent', 'mainNavigation', 'userMenu', 'breadcrumb', 'pagination',
-    'siteNavigation', 'footerNavigation', 'close', 'open', 'save', 'cancel',
-    'delete', 'edit', 'submit', 'search', 'loading', 'menu', 'nextPage',
-    'previousPage', 'currentPage', 'goToPage', 'home', 'dashboard', 'settings',
-    'profile', 'login', 'logout', 'register', 'account', 'customers', 'companies', 'modules'
+    'skipToContent',
+    'mainNavigation',
+    'userMenu',
+    'breadcrumb',
+    'pagination',
+    'siteNavigation',
+    'footerNavigation',
+    'close',
+    'open',
+    'save',
+    'cancel',
+    'delete',
+    'edit',
+    'submit',
+    'search',
+    'loading',
+    'menu',
+    'nextPage',
+    'previousPage',
+    'currentPage',
+    'goToPage',
+    'home',
+    'dashboard',
+    'settings',
+    'profile',
+    'login',
+    'logout',
+    'register',
+    'account',
+    'customers',
+    'companies',
+    'modules',
   ];
-  
-  const missingKeys = requiredKeys.filter(key => !(key in localeMessages));
+
+  const missingKeys = requiredKeys.filter((key) => !(key in localeMessages));
   if (missingKeys.length > 0) {
     console.error(
       `[a11y-core] registerLocale: Missing required message keys for locale "${locale}":`,
@@ -148,16 +180,16 @@ export const registerLocale = (locale: string, localeMessages: A11yMessages): vo
     );
     return;
   }
-  
+
   localeData[locale] = localeMessages;
 };
 
 /**
  * Set the current locale
  * Updates the current locale messages
- * 
+ *
  * @param locale - The locale code to set
- * 
+ *
  * @example
  * ```ts
  * await setLocale('sv');
@@ -170,25 +202,25 @@ export const setLocale = async (locale: Locale): Promise<void> => {
     console.error('[a11y-core] setLocale: locale code is required');
     return;
   }
-  
+
   if (!localeData[locale]) {
     console.warn(
       `[a11y-core] setLocale: Locale "${locale}" not found. Falling back to English.`,
       `Available locales: ${Object.keys(localeData).join(', ')}`,
-      locale !== 'en' && locale !== 'sv' ? '\nDid you forget to call registerLocale()?': ''
+      locale !== 'en' && locale !== 'sv' ? '\nDid you forget to call registerLocale()?' : ''
     );
     currentLocale = 'en';
     messages = localeData.en;
     return;
   }
-  
+
   currentLocale = locale;
   messages = localeData[locale];
 };
 
 /**
  * Get the current locale code
- * 
+ *
  * @returns The current locale code
  */
 export const getCurrentLocale = (): Locale => {
@@ -198,9 +230,9 @@ export const getCurrentLocale = (): Locale => {
 /**
  * Get the current locale messages
  * If no locale has been set, returns English messages
- * 
+ *
  * @returns The current locale messages
- * 
+ *
  * @example
  * ```ts
  * const messages = getMessages();

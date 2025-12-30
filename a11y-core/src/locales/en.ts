@@ -52,7 +52,7 @@ const en: A11yMessages = {
   required: 'Required',
   optional: 'Optional',
   error: 'Error',
-  success: 'Success'
+  success: 'Success',
 };
 
 export default en;

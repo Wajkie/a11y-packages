@@ -1,7 +1,12 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useFocusTrap, useFocusRestoration, useAnnouncer, useA11yLocale } from '../hooks/useAccessibility';
+import {
+  useFocusTrap,
+  useFocusRestoration,
+  useAnnouncer,
+  useA11yLocale,
+} from '../hooks/useAccessibility';
 import { SkipNavigation } from '../components/SkipNavigation';
 import React from 'react';
 
@@ -19,30 +24,35 @@ describe('react-a11y Integration Tests', () => {
     it('should work with focus restoration', async () => {
       function TestComponent() {
         const { restoreFocus } = useFocusRestoration();
-        
+
         return (
           <>
             <SkipNavigation />
-            <button id="trigger" onClick={() => {
-              const main = document.getElementById('main');
-              if (main) {
-                main.focus();
-                restoreFocus();
-              }
-            }}>
+            <button
+              id="trigger"
+              onClick={() => {
+                const main = document.getElementById('main');
+                if (main) {
+                  main.focus();
+                  restoreFocus();
+                }
+              }}
+            >
               Trigger
             </button>
-            <main id="main" tabIndex={-1}>Content</main>
+            <main id="main" tabIndex={-1}>
+              Content
+            </main>
           </>
         );
       }
 
       render(<TestComponent />);
-      
+
       const skipLink = screen.getByText(/skip to main content/i);
       const trigger = screen.getByText('Trigger');
       const main = document.getElementById('main');
-      
+
       expect(skipLink).toBeDefined();
       expect(trigger).toBeDefined();
       expect(main).toBeDefined();
@@ -54,15 +64,15 @@ describe('react-a11y Integration Tests', () => {
       function Modal({ isOpen }: { isOpen: boolean }) {
         const trapRef = useFocusTrap(isOpen) as React.RefObject<HTMLDivElement>;
         const announce = useAnnouncer();
-        
+
         React.useEffect(() => {
           if (isOpen) {
             announce('Modal opened');
           }
         }, [isOpen, announce]);
-        
+
         if (!isOpen) return null;
-        
+
         return (
           <div ref={trapRef} role="dialog">
             <h2>Modal Title</h2>
@@ -72,10 +82,10 @@ describe('react-a11y Integration Tests', () => {
       }
 
       const { rerender } = render(<Modal isOpen={false} />);
-      
+
       // Open modal
       rerender(<Modal isOpen={true} />);
-      
+
       await waitFor(() => {
         const announcements = document.querySelectorAll('[role="status"]');
         expect(announcements.length).toBeGreaterThan(0);
@@ -88,35 +98,31 @@ describe('react-a11y Integration Tests', () => {
       function LocalizedComponent() {
         const { messages, setLocale } = useA11yLocale();
         const announce = useAnnouncer();
-        
+
         return (
           <div>
-            <button onClick={() => announce(messages.loading)}>
-              Announce Loading
-            </button>
-            <button onClick={() => setLocale('sv')}>
-              Switch to Swedish
-            </button>
+            <button onClick={() => announce(messages.loading)}>Announce Loading</button>
+            <button onClick={() => setLocale('sv')}>Switch to Swedish</button>
             <span>{messages.close}</span>
           </div>
         );
       }
 
       render(<LocalizedComponent />);
-      
+
       const announceBtn = screen.getByText('Announce Loading');
       const switchBtn = screen.getByText('Switch to Swedish');
-      
+
       // Announce in English
       await userEvent.click(announceBtn);
-      
+
       await waitFor(() => {
         expect(screen.getByText('Close')).toBeDefined();
       });
-      
+
       // Switch to Swedish
       await userEvent.click(switchBtn);
-      
+
       await waitFor(() => {
         expect(screen.getByText('Stäng')).toBeDefined();
       });
@@ -129,11 +135,11 @@ describe('react-a11y Integration Tests', () => {
         const inputRef = React.useRef<HTMLInputElement>(null);
         const announce = useAnnouncer();
         const [error, setError] = React.useState('');
-        
+
         const handleSubmit = (e: React.FormEvent) => {
           e.preventDefault();
           const value = inputRef.current?.value || '';
-          
+
           if (!value) {
             setError('This field is required');
             announce('Error: This field is required', 'assertive');
@@ -142,7 +148,7 @@ describe('react-a11y Integration Tests', () => {
             announce('Form submitted', 'polite');
           }
         };
-        
+
         return (
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Email</label>
@@ -153,28 +159,32 @@ describe('react-a11y Integration Tests', () => {
               aria-invalid={!!error}
               aria-describedby={error ? 'email-error' : undefined}
             />
-            {error && <span id="email-error" role="alert">{error}</span>}
+            {error && (
+              <span id="email-error" role="alert">
+                {error}
+              </span>
+            )}
             <button type="submit">Submit</button>
           </form>
         );
       }
 
       render(<AccessibleForm />);
-      
+
       const submitBtn = screen.getByText('Submit');
-      
+
       // Submit without value
       await userEvent.click(submitBtn);
-      
+
       await waitFor(() => {
         expect(screen.getByText('This field is required')).toBeDefined();
       });
-      
+
       // Fill and submit
       const input = screen.getByLabelText('Email');
       await userEvent.type(input, 'test@example.com');
       await userEvent.click(submitBtn);
-      
+
       await waitFor(() => {
         const announcements = document.querySelectorAll('[role="status"]');
         expect(announcements.length).toBeGreaterThan(0);
@@ -187,35 +197,43 @@ describe('react-a11y Integration Tests', () => {
       function TwoModals() {
         const [modal1Open, setModal1Open] = React.useState(false);
         const [modal2Open, setModal2Open] = React.useState(false);
-        
+
         const modal1Ref = useFocusTrap(modal1Open) as React.RefObject<HTMLDivElement>;
         const modal2Ref = useFocusTrap(modal2Open) as React.RefObject<HTMLDivElement>;
-        
+
         const { restoreFocus: restore1 } = useFocusRestoration();
         const { restoreFocus: restore2 } = useFocusRestoration();
-        
+
         return (
           <>
             <button onClick={() => setModal1Open(true)}>Open Modal 1</button>
             <button onClick={() => setModal2Open(true)}>Open Modal 2</button>
-            
+
             {modal1Open && (
               <div ref={modal1Ref} role="dialog">
                 <h2>Modal 1</h2>
-                <button onClick={() => {
-                  setModal1Open(false);
-                  restore1();
-                }}>Close 1</button>
+                <button
+                  onClick={() => {
+                    setModal1Open(false);
+                    restore1();
+                  }}
+                >
+                  Close 1
+                </button>
               </div>
             )}
-            
+
             {modal2Open && (
               <div ref={modal2Ref} role="dialog">
                 <h2>Modal 2</h2>
-                <button onClick={() => {
-                  setModal2Open(false);
-                  restore2();
-                }}>Close 2</button>
+                <button
+                  onClick={() => {
+                    setModal2Open(false);
+                    restore2();
+                  }}
+                >
+                  Close 2
+                </button>
               </div>
             )}
           </>
@@ -223,15 +241,15 @@ describe('react-a11y Integration Tests', () => {
       }
 
       render(<TwoModals />);
-      
+
       const open1 = screen.getByText('Open Modal 1');
       const open2 = screen.getByText('Open Modal 2');
-      
+
       await userEvent.click(open1);
       await waitFor(() => {
         expect(screen.getByText('Modal 1')).toBeDefined();
       });
-      
+
       await userEvent.click(open2);
       await waitFor(() => {
         expect(screen.getByText('Modal 2')).toBeDefined();
@@ -244,29 +262,25 @@ describe('react-a11y Integration Tests', () => {
       function RapidComponent() {
         const announce = useAnnouncer();
         const [count, setCount] = React.useState(0);
-        
+
         React.useEffect(() => {
           if (count > 0) {
             announce(`Count: ${count}`);
           }
         }, [count, announce]);
-        
-        return (
-          <button onClick={() => setCount(c => c + 1)}>
-            Count: {count}
-          </button>
-        );
+
+        return <button onClick={() => setCount((c) => c + 1)}>Count: {count}</button>;
       }
 
       render(<RapidComponent />);
-      
+
       const button = screen.getByRole('button');
-      
+
       // Rapid clicks
       for (let i = 0; i < 5; i++) {
         await userEvent.click(button);
       }
-      
+
       await waitFor(() => {
         expect(screen.getByText('Count: 5')).toBeDefined();
       });
@@ -276,11 +290,11 @@ describe('react-a11y Integration Tests', () => {
       function ComponentWithHooks() {
         const containerRef = useFocusTrap(true) as React.RefObject<HTMLDivElement>;
         const announce = useAnnouncer();
-        
+
         React.useEffect(() => {
           announce('Component mounted');
         }, [announce]);
-        
+
         return (
           <div ref={containerRef}>
             <button>Test</button>
@@ -289,12 +303,12 @@ describe('react-a11y Integration Tests', () => {
       }
 
       const { unmount } = render(<ComponentWithHooks />);
-      
+
       await waitFor(() => {
         const announcements = document.querySelectorAll('[role="status"]');
         expect(announcements.length).toBeGreaterThan(0);
       });
-      
+
       // Should not throw on unmount
       expect(() => unmount()).not.toThrow();
     });
@@ -305,19 +319,15 @@ describe('react-a11y Integration Tests', () => {
       function DynamicAriaComponent() {
         const [expanded, setExpanded] = React.useState(false);
         const announce = useAnnouncer();
-        
+
         const handleToggle = () => {
           setExpanded(!expanded);
           announce(expanded ? 'Collapsed' : 'Expanded');
         };
-        
+
         return (
           <div>
-            <button
-              onClick={handleToggle}
-              aria-expanded={expanded}
-              aria-controls="content"
-            >
+            <button onClick={handleToggle} aria-expanded={expanded} aria-controls="content">
               Toggle
             </button>
             <div id="content" role="region">
@@ -328,12 +338,12 @@ describe('react-a11y Integration Tests', () => {
       }
 
       render(<DynamicAriaComponent />);
-      
+
       const button = screen.getByRole('button');
       expect(button.getAttribute('aria-expanded')).toBe('false');
-      
+
       await userEvent.click(button);
-      
+
       await waitFor(() => {
         expect(button.getAttribute('aria-expanded')).toBe('true');
         expect(screen.getByText('Content')).toBeDefined();

@@ -90,30 +90,30 @@ describe('trapFocus', () => {
   it('should focus the first focusable element', () => {
     const container = document.getElementById('container') as HTMLElement;
     const first = document.getElementById('first') as HTMLButtonElement;
-    
+
     trapFocus(container);
-    
+
     expect(document.activeElement).toBe(first);
   });
 
   it('should return a cleanup function', () => {
     const container = document.getElementById('container') as HTMLElement;
     const cleanup = trapFocus(container);
-    
+
     expect(typeof cleanup).toBe('function');
   });
 
   it('should handle Tab key to move forward', () => {
     const container = document.getElementById('container') as HTMLElement;
     const first = document.getElementById('first') as HTMLButtonElement;
-    
+
     trapFocus(container);
     first.focus();
-    
+
     const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true });
     Object.defineProperty(event, 'shiftKey', { value: false });
     container.dispatchEvent(event);
-    
+
     // In real DOM, focus would move, but in happy-dom it's limited
     expect(document.activeElement).toBeDefined();
   });
@@ -131,14 +131,14 @@ describe('announceToScreenReader', () => {
 
   it('should create an announcement element', () => {
     announceToScreenReader('Test message');
-    
+
     const announcements = document.querySelectorAll('[role="status"]');
     expect(announcements.length).toBe(1);
   });
 
   it('should set correct ARIA attributes for polite', () => {
     announceToScreenReader('Test message', 'polite');
-    
+
     const announcement = document.querySelector('[role="status"]');
     expect(announcement?.getAttribute('aria-live')).toBe('polite');
     expect(announcement?.getAttribute('aria-atomic')).toBe('true');
@@ -146,25 +146,25 @@ describe('announceToScreenReader', () => {
 
   it('should set correct ARIA attributes for assertive', () => {
     announceToScreenReader('Test message', 'assertive');
-    
+
     const announcement = document.querySelector('[role="status"]');
     expect(announcement?.getAttribute('aria-live')).toBe('assertive');
   });
 
   it('should remove announcement after timeout', () => {
     announceToScreenReader('Test message');
-    
+
     expect(document.querySelectorAll('[role="status"]').length).toBe(1);
-    
+
     vi.advanceTimersByTime(1000);
-    
+
     expect(document.querySelectorAll('[role="status"]').length).toBe(0);
   });
 
   it('should set the message text content', () => {
     const message = 'Important announcement';
     announceToScreenReader(message);
-    
+
     const announcement = document.querySelector('[role="status"]');
     expect(announcement?.textContent).toBe(message);
   });
@@ -221,27 +221,27 @@ describe('getDescriptionId', () => {
 describe('getFormFieldAriaAttributes', () => {
   it('should return aria-invalid and aria-describedby when hasError is true', () => {
     const attrs = getFormFieldAriaAttributes('email', true, false);
-    
+
     expect(attrs['aria-invalid']).toBe(true);
     expect(attrs['aria-describedby']).toBe('email-error');
   });
 
   it('should return aria-describedby for description when no error', () => {
     const attrs = getFormFieldAriaAttributes('email', false, true);
-    
+
     expect(attrs['aria-invalid']).toBeUndefined();
     expect(attrs['aria-describedby']).toBe('email-description');
   });
 
   it('should return empty object when no error or description', () => {
     const attrs = getFormFieldAriaAttributes('email', false, false);
-    
+
     expect(Object.keys(attrs).length).toBe(0);
   });
 
   it('should prioritize error over description', () => {
     const attrs = getFormFieldAriaAttributes('email', true, true);
-    
+
     expect(attrs['aria-invalid']).toBe(true);
     expect(attrs['aria-describedby']).toBe('email-error');
   });
@@ -258,23 +258,23 @@ describe('FocusManager', () => {
   it('should save the currently focused element', () => {
     const btn1 = document.getElementById('btn1') as HTMLButtonElement;
     btn1.focus();
-    
+
     const manager = new FocusManager();
     manager.saveFocus();
-    
+
     // Change focus
     const btn2 = document.getElementById('btn2') as HTMLButtonElement;
     btn2.focus();
-    
+
     // Restore should bring back btn1 (in real DOM)
     manager.restoreFocus();
-    
+
     expect(manager).toBeDefined();
   });
 
   it('should handle restore when no element was saved', () => {
     const manager = new FocusManager();
-    
+
     // Should not throw
     expect(() => manager.restoreFocus()).not.toThrow();
   });
@@ -285,9 +285,9 @@ describe('prefersReducedMotion', () => {
     const originalWindow = global.window;
     // @ts-expect-error - Testing undefined window
     delete global.window;
-    
+
     expect(prefersReducedMotion()).toBe(false);
-    
+
     global.window = originalWindow;
   });
 
@@ -297,14 +297,14 @@ describe('prefersReducedMotion', () => {
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     });
-    
+
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
       value: matchMediaMock,
     });
-    
+
     prefersReducedMotion();
-    
+
     expect(matchMediaMock).toHaveBeenCalledWith('(prefers-reduced-motion: reduce)');
   });
 
@@ -317,7 +317,7 @@ describe('prefersReducedMotion', () => {
         removeEventListener: vi.fn(),
       }),
     });
-    
+
     expect(prefersReducedMotion()).toBe(true);
   });
 });

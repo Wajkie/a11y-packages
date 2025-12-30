@@ -7,13 +7,13 @@
  * Generate unique ID for ARIA relationships
  * @param prefix - Optional prefix for the generated ID
  * @returns A unique identifier string
- * 
+ *
  * @example
  * ```ts
  * const labelId = generateId('label'); // 'label-x3k9f2m1'
  * ```
  */
-export const generateId = (prefix: string = "a11y"): string => {
+export const generateId = (prefix: string = 'a11y'): string => {
   return `${prefix}-${Math.random().toString(36).substring(2, 11)}`;
 };
 
@@ -23,15 +23,19 @@ export const generateId = (prefix: string = "a11y"): string => {
  * @param defaultText - The default button/element text
  * @param loadingText - Optional custom loading text
  * @returns Appropriate label text
- * 
+ *
  * @example
  * ```ts
  * const label = getLoadingLabel(isLoading, 'Save', 'Saving...');
  * <button aria-label={label}>{label}</button>
  * ```
  */
-export const getLoadingLabel = (isLoading: boolean, defaultText: string, loadingText?: string): string => {
-  return isLoading ? (loadingText || `${defaultText}...`) : defaultText;
+export const getLoadingLabel = (
+  isLoading: boolean,
+  defaultText: string,
+  loadingText?: string
+): string => {
+  return isLoading ? loadingText || `${defaultText}...` : defaultText;
 };
 
 /**
@@ -39,7 +43,7 @@ export const getLoadingLabel = (isLoading: boolean, defaultText: string, loading
  * @param action - The action being performed (e.g., 'Delete', 'Edit')
  * @param target - Optional target of the action (e.g., 'user profile')
  * @returns A descriptive ARIA label
- * 
+ *
  * @example
  * ```ts
  * const label = createAriaLabel('Delete', 'user account');
@@ -54,7 +58,7 @@ export const createAriaLabel = (action: string, target?: string): string => {
  * Create accessible error message ID
  * @param fieldId - The form field ID
  * @returns ID for the error message element
- * 
+ *
  * @example
  * ```ts
  * const errorId = getErrorId('email'); // 'email-error'
@@ -70,7 +74,7 @@ export const getErrorId = (fieldId: string): string => {
  * Create accessible description ID
  * @param fieldId - The form field ID
  * @returns ID for the description element
- * 
+ *
  * @example
  * ```ts
  * const descId = getDescriptionId('password');
@@ -88,7 +92,7 @@ export const getDescriptionId = (fieldId: string): string => {
  * @param hasError - Whether the field has an error
  * @param hasDescription - Whether the field has a description
  * @returns Object with appropriate ARIA attributes
- * 
+ *
  * @example
  * ```ts
  * const ariaAttrs = getFormFieldAriaAttributes('email', true, false);
@@ -101,25 +105,36 @@ export const getFormFieldAriaAttributes = (
   hasError: boolean,
   hasDescription: boolean
 ): {
-  "aria-invalid"?: boolean;
-  "aria-describedby"?: string;
+  'aria-invalid'?: boolean;
+  'aria-describedby'?: string;
 } => {
   const attributes: ReturnType<typeof getFormFieldAriaAttributes> = {};
 
   if (hasError) {
-    attributes["aria-invalid"] = true;
-    attributes["aria-describedby"] = getErrorId(fieldId);
+    attributes['aria-invalid'] = true;
+    attributes['aria-describedby'] = getErrorId(fieldId);
   } else if (hasDescription) {
-    attributes["aria-describedby"] = getDescriptionId(fieldId);
+    attributes['aria-describedby'] = getDescriptionId(fieldId);
   }
 
   return attributes;
-}
+};
 
 /**
  * ARIA role types for improved type safety
  */
-export type AriaRole = 'button' | 'link' | 'navigation' | 'main' | 'dialog' | 'alert' | 'status' | 'menu' | 'menuitem' | 'tab' | 'tabpanel';
+export type AriaRole =
+  | 'button'
+  | 'link'
+  | 'navigation'
+  | 'main'
+  | 'dialog'
+  | 'alert'
+  | 'status'
+  | 'menu'
+  | 'menuitem'
+  | 'tab'
+  | 'tabpanel';
 
 /**
  * ARIA live region priority levels

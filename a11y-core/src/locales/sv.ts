@@ -52,7 +52,7 @@ const sv: A11yMessages = {
   required: 'Obligatorisk',
   optional: 'Valfri',
   error: 'Fel',
-  success: 'Lyckades'
+  success: 'Lyckades',
 };
 
 export default sv;
