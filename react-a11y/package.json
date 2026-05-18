@@ -67,12 +67,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wajkie/react-a11y"
+    "url": "https://github.com/Wajkie/a11y-packages"
   },
   "bugs": {
-    "url": "https://github.com/wajkie/react-a11y/issues"
+    "url": "https://github.com/Wajkie/a11y-packages/issues"
   },
-  "homepage": "https://github.com/wajkie/react-a11y#readme",
+  "homepage": "https://wajkiea11ydemo.netlify.app/",
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"

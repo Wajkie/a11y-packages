@@ -1,6 +1,6 @@
 # @wajkie Accessibility Packages
 
-A collection of accessibility utilities and React hooks for building WCAG 2.1 AA compliant web applications, developed as part of my graduation project.
+A collection of accessibility utilities and React hooks for implementing the technical requirements of WCAG 2.1 AA, developed as part of my graduation project.
 
 [![CI](https://github.com/wajkie/a11y-packages/workflows/CI/badge.svg)](https://github.com/wajkie/a11y-packages/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -105,7 +105,7 @@ These packages help you meet the following success criteria:
 | 2.4.1 Bypass Blocks | A | ✅ Skip navigation |
 | 2.4.3 Focus Order | A | ✅ Focus trap |
 | 2.4.7 Focus Visible | AA | ✅ Focus utilities |
-| 2.3.3 Animation | AAA | ✅ Reduced motion |
+| 2.3.3 Animation | AAA *(bonus)* | ✅ Reduced motion |
 | 3.3.1 Error Identification | A | ✅ Form ARIA |
 | 3.3.2 Labels or Instructions | A | ✅ ARIA labels |
 | 4.1.2 Name, Role, Value | A | ✅ ARIA attributes |
